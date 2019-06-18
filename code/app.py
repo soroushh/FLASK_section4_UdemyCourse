@@ -1,18 +1,24 @@
-from flask import Flask, jsonify, request
+from flask import Flask
 from flask_restful import Resource, Api
 import json
 
 app = Flask(__name__)
 api = Api(app)
 
+items = []
+
 class Item(Resource):
 
     def get(self,name):
-        items = {"book":1000}
-        for item,price in items.items():
-            if item== name:
-                return(jsonify({"name":item, "price":price}))
-        return(jsonify({"message":"item not found"}))
+        for item in items:
+            if item["name"]== name:
+                return(item)
+        return({"message":"not found"}), 404
+
+    def post(self, name):
+        item = {"name":name , "price":12.00}
+        items.append(item)
+        return(item), 201 
 
 
 api.add_resource(Item, '/item/<string:name>')
