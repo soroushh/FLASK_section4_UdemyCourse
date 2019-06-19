@@ -10,10 +10,11 @@ items = []
 class Item(Resource):
 
     def get(self,name):
-        for item in items:
-            if item["name"]== name:
-                return(item)
-        return({"message":"not found"}), 404
+        # for item in items:
+        #     if item["name"]== name:
+        #         return(item)
+        item = next(filter(lambda x: x["name"] == name , items), None)
+        return({"item":item}), 200 if item else 404
 
     def post(self, name):
         data = request.get_json()
