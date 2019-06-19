@@ -28,6 +28,13 @@ class Item(Resource):
         items.append(item)
         return(item), 201
 
+    def delete(self, name):
+        for item in items:
+            if item["name"] == name :
+                items.remove(item)
+                return {"message": "item removed"}
+        return({"message":"item does not exist"})
+
 class Items(Resource):
     def get(self):
         return {"items":items} , 200
