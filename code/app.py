@@ -35,6 +35,14 @@ class Item(Resource):
                 return {"message": "item removed"}
         return({"message":"item does not exist"})
 
+    def put(self, name):
+        price = request.get_json()
+        for item in items:
+            if item["name"] == name :
+                item["price"] = price["price"]
+                return({"name": name , "price": price["price"]})
+        return({"message": "Item does not exist."})
+
 class Items(Resource):
     def get(self):
         return {"items":items} , 200
