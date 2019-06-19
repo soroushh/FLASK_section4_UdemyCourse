@@ -38,15 +38,22 @@ class Item(Resource):
         if item :
             items.remove(item)
             return{"message":"Item '{}'removed" .format(name)}
-        return({"message":"Item does not exist"})
+        return({"message":"Item does not exist."})
 
     def put(self, name):
         price = request.get_json()
-        for item in items:
-            if item["name"] == name :
-                item["price"] = price["price"]
-                return({"name": name , "price": price["price"]})
-        return({"message": "Item does not exist."})
+        # for item in items:
+        #     if item["name"] == name :
+        #         item["price"] = price["price"]
+        #         return({"name": name , "price": price["price"]})
+        # return({"message": "Item does not exist."})
+        item = next(filter(lambda item: item["name"]== name , items), None)
+        if item :
+            item["price"] = price["price"]
+            return({"name":name , "price": price["price"]})
+        else :
+            items.append({"name":name, "price":price["price"]})
+            return({"message": "item was added"})
 
 class Items(Resource):
     def get(self):
